@@ -1,0 +1,3 @@
+﻿Constants.obj : error LNK2001: unresolved external symbol "public: static double Constants::SPAWN_TIMER" (?SPAWN_TIMER@Constants@@2NA)
+GameManager.obj : error LNK2001: unresolved external symbol "public: static double Constants::SPAWN_TIMER" (?SPAWN_TIMER@Constants@@2NA)
+D:\Visual Studios Projects\Reflex Rush\Debug\Reflex Rush.exe : fatal error LNK1120: 1 unresolved externals
