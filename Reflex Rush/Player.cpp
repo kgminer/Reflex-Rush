@@ -93,7 +93,7 @@ int Player::checkCollision(class Asteroid *asteroidLayer[][8])
 {
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 8; j++) {
-			if (asteroidLayer[i][j] == nullptr) {
+			if (asteroidLayer[i][j]->getActive() == false) {
 				continue;
 			}
 			else {

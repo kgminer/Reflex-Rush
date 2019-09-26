@@ -10,12 +10,15 @@ public:
 	void Render(SDL_Renderer* ren);
 	void setXVelocity(int newVelocity);
 	void setYVelocity(int newVelocity);
+	void setActive(bool newStatus);
+	bool getActive();
 	int getXMax();
 	int getXMin();
 	int getYMax();
 	int getYMin();
 private:
 	int xVelocity, yVelocity, xMax, xMin, yMax, yMin, sprite;
+	bool active;
 	SDL_Rect sourceRect, destinationRect;
 	SDL_Texture *asteroidTexture;
 };

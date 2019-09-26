@@ -19,6 +19,7 @@ Asteroid::Asteroid(SDL_Renderer* ren, int screenWidth, int screenHeight, int pos
 	sourceRect.y = (sprite * 256) + 25;
 	xVelocity = 0;
 	yVelocity = 1 * difficulty;
+	active = false;
 	xMax = destinationRect.x + destinationRect.w;
 	xMin = destinationRect.x;
 	yMax = destinationRect.y + destinationRect.h;
@@ -56,6 +57,16 @@ void Asteroid::setXVelocity(int newVelocity)
 void Asteroid::setYVelocity(int newVelocity)
 {
 	yVelocity = newVelocity;
+}
+
+void Asteroid::setActive(bool newStatus)
+{
+	active = newStatus;
+}
+
+bool Asteroid::getActive()
+{
+	return active;
 }
 
 int Asteroid::getXMax()
