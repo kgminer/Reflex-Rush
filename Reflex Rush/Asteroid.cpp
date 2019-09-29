@@ -59,6 +59,13 @@ void Asteroid::setYVelocity(int newVelocity)
 	yVelocity = newVelocity;
 }
 
+void Asteroid::resetAsteroid()
+{
+	setActive(false);
+	destinationRect.y = -180;
+	yMin = destinationRect.y;
+}
+
 void Asteroid::setActive(bool newStatus)
 {
 	active = newStatus;

@@ -244,7 +244,7 @@ void GameManager::update()
 
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (asteroidLayer[i][j] != nullptr) {
+				if (asteroidLayer[i][j]->getActive() == true) {
 					if (asteroidLayer[i][j]->getYMin() > screenHeight) {
 						clearAsteroids(i);
 						activeRows--;
@@ -266,8 +266,8 @@ void GameManager::render()
 		player->Render(renderer);
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 8; j++) {
-				//cout << "Rendering: " <<  i << " " << j << "\n";
 				if (asteroidLayer[i][j]->getActive() == true) {
+					//cout << "Rendering: " << i << " " << j << "\n";
 					asteroidLayer[i][j]->Render(renderer);
 				}
 			}
@@ -305,15 +305,16 @@ void GameManager::clean()
 	Mix_FreeMusic(menuMusic);
 	Mix_Quit();
 	SDL_Quit();
+	TTF_Quit();
 }
 
 void GameManager::spawnAsteroids(int rowID)
 {
-	cout << "Spawning row" << rowID << "\n";
+	//cout << "Spawning row" << rowID << "\n";
 	for (int i = 0; i < 8; i++) {
 		randomNumber = (rand() % 100) + 1;
 		if (randomNumber <= spawnThreshold) {
-			cout << "Activating asteroid" << rowID << " " << i << "\n";
+			//cout << "Activating asteroid" << rowID << " " << i << " " << asteroidLayer[rowID][i]->getYMin() <<"\n";
 			asteroidLayer[rowID][i]->setActive(true);
 		}
 		else {
@@ -325,7 +326,8 @@ void GameManager::spawnAsteroids(int rowID)
 void GameManager::clearAsteroids(int rowID)
 {
 	for (int i = 0; i < 8; i++) {
-		asteroidLayer[rowID][i]->setActive(false);
+		asteroidLayer[rowID][i]->resetAsteroid();
+		//cout << "Deactivating asteroid" << rowID << " " << i <<  " " << asteroidLayer[rowID][i]->getYMin() << "\n";
 	}
 }
 

@@ -10,6 +10,7 @@ public:
 	void Render(SDL_Renderer* ren);
 	void setXVelocity(int newVelocity);
 	void setYVelocity(int newVelocity);
+	void resetAsteroid();
 	void setActive(bool newStatus);
 	bool getActive();
 	int getXMax();

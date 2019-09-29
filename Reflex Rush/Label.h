@@ -14,6 +14,7 @@ public:
 private:
 	SDL_Rect position;
 	SDL_Texture* labelTexture;
+	TTF_Font* font;
 	string fontPath;
 	int fontSize;
 	SDL_Color textColor;
