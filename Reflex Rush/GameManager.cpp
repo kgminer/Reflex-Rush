@@ -31,7 +31,7 @@ GameManager::GameManager(const char* title, int xpos, int ypos, int width, int h
 
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 8; j++) {
-			asteroidLayer[i][j] = new Asteroid(renderer, screenWidth, screenHeight, j, 1);
+			asteroidLayer[i][j] = new Asteroid(renderer, screenWidth, screenHeight, j);
 		}
 	}
 
@@ -315,10 +315,7 @@ void GameManager::spawnAsteroids(int rowID)
 		randomNumber = (rand() % 100) + 1;
 		if (randomNumber <= spawnThreshold) {
 			//cout << "Activating asteroid" << rowID << " " << i << " " << asteroidLayer[rowID][i]->getYMin() <<"\n";
-			asteroidLayer[rowID][i]->setActive(true);
-		}
-		else {
-			asteroidLayer[rowID][i]->setActive(false);
+			asteroidLayer[rowID][i]->activateAsteroid(level);
 		}
 	}
 }
@@ -326,7 +323,7 @@ void GameManager::spawnAsteroids(int rowID)
 void GameManager::clearAsteroids(int rowID)
 {
 	for (int i = 0; i < 8; i++) {
-		asteroidLayer[rowID][i]->resetAsteroid();
+		asteroidLayer[rowID][i]->deactivateAsteroid();
 		//cout << "Deactivating asteroid" << rowID << " " << i <<  " " << asteroidLayer[rowID][i]->getYMin() << "\n";
 	}
 }

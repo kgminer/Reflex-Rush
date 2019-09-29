@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Asteroid::Asteroid(SDL_Renderer* ren, int screenWidth, int screenHeight, int pos, int difficulty)
+Asteroid::Asteroid(SDL_Renderer* ren, int screenWidth, int screenHeight, int pos)
 {
 	asteroidTexture = TextureManager::LoadTexture("assets/rocks_rotated.png", ren);
 	if (asteroidTexture == NULL) {
@@ -18,7 +18,7 @@ Asteroid::Asteroid(SDL_Renderer* ren, int screenWidth, int screenHeight, int pos
 	sourceRect.x = 35;
 	sourceRect.y = (sprite * 256) + 25;
 	xVelocity = 0;
-	yVelocity = 1 * difficulty;
+	yVelocity = 1;
 	active = false;
 	xMax = destinationRect.x + destinationRect.w;
 	xMin = destinationRect.x;
@@ -59,11 +59,17 @@ void Asteroid::setYVelocity(int newVelocity)
 	yVelocity = newVelocity;
 }
 
-void Asteroid::resetAsteroid()
+void Asteroid::deactivateAsteroid()
 {
-	setActive(false);
+	active = false;
 	destinationRect.y = -180;
 	yMin = destinationRect.y;
+}
+
+void Asteroid::activateAsteroid(int difficulty)
+{
+	active = true;
+	yVelocity = 1 * difficulty;
 }
 
 void Asteroid::setActive(bool newStatus)
