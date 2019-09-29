@@ -5,6 +5,7 @@
 #include "SDL_mixer.h"
 #include "Player.h"
 #include "TextureManager.h"
+#include "UIManager.h"
 #include "Constants.h"
 #include "Asteroid.h"
 #include "Label.h"
@@ -30,16 +31,14 @@ public:
 private:
 
 	bool running, inGame, gameOver, paused;
-	int screenWidth, screenHeight, mouseX, mouseY, score, randomNumber, spawnThreshold, spawnRow, activeRows, level, levelThreshold;
+	int screenWidth, screenHeight, mouseX, mouseY, score, randomNumber, spawnThreshold, spawnRow, activeRows, level, levelThreshold, uiMouseResponse;
 	double currTime, prevTime, deltaTime, spawnTimer;
-	stringstream ss;
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	SDL_Texture *backgroundTexture;
 	Mix_Music *menuMusic;
 	class Player *player;
 	class Asteroid *asteroidLayer[5][8];
-	class Label *titleLabel, *playLabel, *replayLabel, *pauseLabel, *unpauseTooltipLabel, *scoreLabel, *finalScoreLabel, *returnToMenuLabel, *gameOverLabel;
-	class Button *playButton, *replayButton, *returnToMenuButton;
+	class UIManager* ui;
 };
 
