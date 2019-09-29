@@ -24,7 +24,6 @@ GameManager::GameManager(const char* title, int xpos, int ypos, int width, int h
 	backgroundTexture = TextureManager::LoadTexture("assets/SpaceBackground.png", renderer);
 	running = true;
 	inGame = false;
-	spawnThreshold = CHANCE_TO_SPAWN_ASTEROID;
 	player = new Player(renderer, screenWidth, screenHeight);
 
 	for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
@@ -55,7 +54,7 @@ void GameManager::handleEvents()
 			uiMouseResponse = ui->handleEvents(inGame, gameOver, mouseX, mouseY);
 			switch (uiMouseResponse)
 			{
-				case 1:
+				case REPLAY_PRESSED:
 					gameOver = false;
 					paused = false;
 					score = 0;
@@ -64,6 +63,7 @@ void GameManager::handleEvents()
 					spawnTimer = 0;
 					level = 1;
 					levelThreshold = STARTING_LEVEL_THRESHOLD;
+					spawnThreshold = CHANCE_TO_SPAWN_ASTEROID;
 					player->centerShip(screenWidth, screenHeight);
 					for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
 						clearAsteroids(i);
@@ -73,7 +73,7 @@ void GameManager::handleEvents()
 					activeRows++;
 					currTime = SDL_GetTicks() / CONVERT_MS_TO_SEC;
 					break;
-				case 2:
+				case RETURN_PRESSED:
 					inGame = false;
 					gameOver = false;
 					player->centerShip(screenWidth, screenHeight);
@@ -82,7 +82,7 @@ void GameManager::handleEvents()
 					}
 					Mix_PlayMusic(menuMusic, -1);
 					break;
-				case 3:
+				case PLAY_PRESSED:
 					inGame = true;
 					gameOver = false;
 					paused = false;
@@ -92,6 +92,7 @@ void GameManager::handleEvents()
 					spawnTimer = 0;
 					level = 1;
 					levelThreshold = STARTING_LEVEL_THRESHOLD;
+					spawnThreshold = CHANCE_TO_SPAWN_ASTEROID;
 					Mix_FadeOutMusic(1000);
 					spawnAsteroids(spawnRow % ASTEROID_ARRAY_ROWS);
 					spawnRow++;
@@ -182,6 +183,8 @@ void GameManager::update()
 			level++;
 			cout << "Level " << level << "\n";
 			levelThreshold = levelThreshold + (levelThreshold * level);
+			spawnTimer = SPAWN_TIMER_ADJUSTMENT;
+			spawnThreshold += SPAWN_THRESHOLD_ADJUSTMENT;
 		}
 
 		if (spawnTimer > SPAWN_TIMER && activeRows < ASTEROID_ARRAY_ROWS) {

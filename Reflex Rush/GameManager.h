@@ -10,6 +10,7 @@
 #include "Asteroid.h"
 #include "Label.h"
 #include "Button.h"
+#include <math.h>
 #include <iostream>
 #include <sstream>
 #include <cstdlib>

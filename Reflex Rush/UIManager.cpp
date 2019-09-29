@@ -31,16 +31,16 @@ int UIManager::handleEvents(bool inGame, bool gameOver, int mouseX, int mouseY)
 {
 	if (inGame && gameOver) {
 		if ((mouseX > replayButton->getBoundsX()) && (mouseX < replayButton->getBoundsX() + replayButton->getBoundsW()) && (mouseY > replayButton->getBoundsY()) && (mouseY < replayButton->getBoundsY() + replayButton->getBoundsH())) {
-			return 1;
+			return REPLAY_PRESSED;
 		}
 		else if ((mouseX > returnToMenuButton->getBoundsX()) && (mouseX < returnToMenuButton->getBoundsX() + returnToMenuButton->getBoundsW()) && (mouseY > returnToMenuButton->getBoundsY()) && (mouseY < returnToMenuButton->getBoundsY() + returnToMenuButton->getBoundsH())) {
-			return 2;
+			return RETURN_PRESSED;
 		}
 	}
 	else if (!inGame) {
 		//cout << "x: " << mouseX << " y: " << mouseY << "\n";
 		if ((mouseX > playButton->getBoundsX()) && (mouseX < playButton->getBoundsX() + playButton->getBoundsW()) && (mouseY > playButton->getBoundsY()) && (mouseY < playButton->getBoundsY() + playButton->getBoundsH())) {
-			return 3;
+			return PLAY_PRESSED;
 		}
 	}
 	return 0;
