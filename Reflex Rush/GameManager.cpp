@@ -12,7 +12,7 @@ GameManager::GameManager(const char* title, int xpos, int ypos, int width, int h
 		cout << "Error initializing TTF\n";
 	}
 
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+	if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, AUDIO_CHANNELS, AUDIO_CHUNKSIZE) < 0) {
 		cout << "Error initializeing Mixer\n";
 	}
 	menuMusic = Mix_LoadMUS("assets/Space Music Pack/menu.wav");
@@ -26,34 +26,34 @@ GameManager::GameManager(const char* title, int xpos, int ypos, int width, int h
 	backgroundTexture = TextureManager::LoadTexture("assets/SpaceBackground.png", renderer);
 	running = true;
 	inGame = false;
-	spawnThreshold = 30;
+	spawnThreshold = CHANCE_TO_SPAWN_ASTEROID;
 	player = new Player(renderer, screenWidth, screenHeight);
 
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 8; j++) {
+	for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
+		for (int j = 0; j < ASTEROID_ARRAY_COLS; j++) {
 			asteroidLayer[i][j] = new Asteroid(renderer, screenWidth, screenHeight, j);
 		}
 	}
 
-	titleLabel = new Label("Reflex Rush", "assets/PSD/SHOWG.TTF", 64, white, 500, 300, renderer);
+	titleLabel = new Label("Reflex Rush", "assets/PSD/SHOWG.TTF", TITLE_LABEL_SIZE, white, TITLE_LABEL_X, TITLE_LABEL_Y, renderer);
 	
-	gameOverLabel = new Label("Game Over", "assets/PSD/SHOWG.TTF", 64, white, 500, 300, renderer);
+	gameOverLabel = new Label("Game Over", "assets/PSD/SHOWG.TTF", GAME_OVER_LABEL_SIZE, white, GAME_OVER_LABEL_X, GAME_OVER_LABEL_Y, renderer);
 	
-	pauseLabel = new Label("Paused", "assets/PSD/SHOWG.TTF", 100, white, 500, 0, renderer);
-	unpauseTooltipLabel = new Label("Press ESC to unpause", "assets/PSD/SHOWG.TTF", 32, white, 510, 100, renderer);
+	pauseLabel = new Label("Paused", "assets/PSD/SHOWG.TTF", PAUSE_LABEL_SIZE, white, PAUSE_LABEL_X, PAUSE_LABEL_Y, renderer);
+	unpauseTooltipLabel = new Label("Press ESC to unpause", "assets/PSD/SHOWG.TTF", UNPAUSE_TIP_LABEL_SIZE, white, UNPAUSE_TIP_LABEL_X, UNPAUSE_TIP_LABEL_Y, renderer);
 
 	ss << "Score: " << score;
-	scoreLabel = new Label(ss.str(), "assets/PSD/SHOWG.TTF", 25, white, 0, 0, renderer);
-	finalScoreLabel = new Label("", "assets/PSD/SHOWG.TTF", 40, white, 500, 380, renderer);
+	scoreLabel = new Label(ss.str(), "assets/PSD/SHOWG.TTF", SCORE_LABEL_SIZE, white, SCORE_LABEL_X, SCORE_LABEL_Y, renderer);
+	finalScoreLabel = new Label("", "assets/PSD/SHOWG.TTF", FINAL_SCORE_LABEL_SIZE, white, FINAL_SCORE_LABEL_X, FINAL_SCORE_LABEL_Y, renderer);
 
-	playLabel = new Label("Play", "assets/PSD/SHOWG.TTF", 40, white, 590, 480, renderer);
-	playButton = new Button("assets/PNG/Buttons/BTNs/Play_BTN.png", "assets/PNG/Buttons/BTNs_Active/Play_BTN.png", 700, 450, 100, 100, renderer);
+	playLabel = new Label("Play", "assets/PSD/SHOWG.TTF", PLAY_LABEL_SIZE, white, PLAY_LABEL_X, PLAY_LABEL_Y, renderer);
+	playButton = new Button("assets/PNG/Buttons/BTNs/Play_BTN.png", "assets/PNG/Buttons/BTNs_Active/Play_BTN.png", PLAY_BUTTON_X, PLAY_BUTTON_Y, PLAY_BUTTON_W, PLAY_BUTTON_H, renderer);
 	
-	replayLabel = new Label("Replay", "assets/PSD/SHOWG.TTF", 40, white, 580, 580, renderer);
-	replayButton = new Button("assets/PNG/Buttons/BTNs/Replay_BTN.png", "assets/PNG/Buttons/BTNs_Active/Replay_BTN.png", 750, 550, 100, 100, renderer);
+	replayLabel = new Label("Replay", "assets/PSD/SHOWG.TTF", REPLAY_LABEL_SIZE, white, REPLAY_LABEL_X, REPLAY_LABEL_Y, renderer);
+	replayButton = new Button("assets/PNG/Buttons/BTNs/Replay_BTN.png", "assets/PNG/Buttons/BTNs_Active/Replay_BTN.png", REPLAY_BUTTON_X, REPLAY_BUTTON_Y, REPLAY_BUTTON_W, REPLAY_BUTTON_H, renderer);
 
-	returnToMenuLabel = new Label("Return To Menu", "assets/PSD/SHOWG.TTF", 40, white, 400, 480, renderer);
-	returnToMenuButton = new Button("assets/PNG/Buttons/BTNs/Menu_BTN.png", "assets/PNG/Buttons/BTNs_Active/Menu_BTN.png", 750, 450, 100, 100, renderer);
+	returnToMenuLabel = new Label("Return To Menu", "assets/PSD/SHOWG.TTF", RETURN_TO_MENU_LABEL_SIZE, white, RETURN_TO_MENU_LABEL_X, RETURN_TO_MENU_LABEL_Y, renderer);
+	returnToMenuButton = new Button("assets/PNG/Buttons/BTNs/Menu_BTN.png", "assets/PNG/Buttons/BTNs_Active/Menu_BTN.png", RETURN_TO_MENU_BUTTON_X, RETURN_TO_MENU_BUTTON_Y, RETURN_TO_MENU_BUTTON_W, RETURN_TO_MENU_BUTTON_H, renderer);
 }
 
 
@@ -80,21 +80,21 @@ void GameManager::handleEvents()
 					spawnRow = 0;
 					activeRows = 0;
 					level = 1;
-					levelThreshold = 6000;
+					levelThreshold = STARTING_LEVEL_THRESHOLD;
 					player->centerShip(screenWidth, screenHeight);
-					for (int i = 0; i < 5; i++) {
+					for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
 						clearAsteroids(i);
 					}
-					spawnAsteroids(spawnRow % 5);
+					spawnAsteroids(spawnRow % ASTEROID_ARRAY_ROWS);
 					spawnRow++;
 					activeRows++;
-					currTime = SDL_GetTicks() / 1000.0;
+					currTime = SDL_GetTicks() / CONVERT_MS_TO_SEC;
 				}
 				else if ((mouseX > returnToMenuButton->getBoundsX()) && (mouseX < returnToMenuButton->getBoundsX() + returnToMenuButton->getBoundsW()) && (mouseY > returnToMenuButton->getBoundsY()) && (mouseY < returnToMenuButton->getBoundsY() + returnToMenuButton->getBoundsH())) {
 					inGame = false;
 					gameOver = false;
 					player->centerShip(screenWidth, screenHeight);
-					for (int i = 0; i < 5; i++) {
+					for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
 						clearAsteroids(i);
 					}
 					Mix_PlayMusic(menuMusic, -1);
@@ -110,12 +110,12 @@ void GameManager::handleEvents()
 					spawnRow = 0;
 					activeRows = 0;
 					level = 1;
-					levelThreshold = 6000;
+					levelThreshold = STARTING_LEVEL_THRESHOLD;
 					Mix_FadeOutMusic(1000);
-					spawnAsteroids(spawnRow % 5);
+					spawnAsteroids(spawnRow % ASTEROID_ARRAY_ROWS);
 					spawnRow++;
 					activeRows++;
-					currTime = SDL_GetTicks() / 1000.0;
+					currTime = SDL_GetTicks() / CONVERT_MS_TO_SEC;
 				}
 			}
 			break;
@@ -125,19 +125,19 @@ void GameManager::handleEvents()
 				{
 					case SDLK_LEFT:
 					case SDLK_a:
-						player->setXVelocity(-2);
+						player->setXVelocity(-PLAYER_MOVEMENT_VELOCITY);
 						break;
 					case SDLK_RIGHT:
 					case SDLK_d:
-						player->setXVelocity(2);
+						player->setXVelocity(PLAYER_MOVEMENT_VELOCITY);
 						break;
 					case SDLK_UP:
 					case SDLK_w:
-						player->setYVelocity(-2);
+						player->setYVelocity(-PLAYER_MOVEMENT_VELOCITY);
 						break;
 					case SDLK_DOWN:
 					case SDLK_s:
-						player->setYVelocity(2);
+						player->setYVelocity(PLAYER_MOVEMENT_VELOCITY);
 						break;
 					default:
 						break;
@@ -181,17 +181,6 @@ void GameManager::handleEvents()
 						break;
 				}
 			}
-			else {
-				switch (event.key.keysym.sym)
-				{
-					case SDLK_p:
-						//player->print();
-						cout << playButton->getBoundsX() << " " << playButton->getBoundsY() << " " << playButton->getBoundsW() << " " << playButton->getBoundsH() << "\n";
-						break;
-					default:
-						break;
-				}
-			}
 			break;
 	}
 }
@@ -202,12 +191,12 @@ void GameManager::update()
 		return;
 	}
 	prevTime = currTime;
-	currTime = SDL_GetTicks() / 1000.0;
+	currTime = SDL_GetTicks() / CONVERT_MS_TO_SEC;
 	deltaTime = currTime - prevTime;
 	spawnTimer += deltaTime;
 
 	if (!paused) {
-		score = score + (1 * level);
+		score = score + level;
 
 		if (score > levelThreshold) {
 			level++;
@@ -215,13 +204,13 @@ void GameManager::update()
 			levelThreshold = levelThreshold + (levelThreshold * level);
 		}
 
-		if (spawnTimer > SPAWN_TIMER && activeRows < 5) {
+		if (spawnTimer > SPAWN_TIMER && activeRows < ASTEROID_ARRAY_ROWS) {
 			spawnTimer = 0;
-			spawnAsteroids(spawnRow % 5);
+			spawnAsteroids(spawnRow % ASTEROID_ARRAY_ROWS);
 			spawnRow++;
 		}
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 8; j++) {
+		for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
+			for (int j = 0; j < ASTEROID_ARRAY_COLS; j++) {
 				if (asteroidLayer[i][j]->getActive() == true) {
 					asteroidLayer[i][j]->Update();
 				}
@@ -242,8 +231,8 @@ void GameManager::update()
 			scoreLabel->setText(ss.str(), renderer);
 		}
 
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 8; j++) {
+		for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
+			for (int j = 0; j < ASTEROID_ARRAY_COLS; j++) {
 				if (asteroidLayer[i][j]->getActive() == true) {
 					if (asteroidLayer[i][j]->getYMin() > screenHeight) {
 						clearAsteroids(i);
@@ -264,8 +253,8 @@ void GameManager::render()
 
 	if (inGame) {
 		player->Render(renderer);
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 8; j++) {
+		for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
+			for (int j = 0; j < ASTEROID_ARRAY_COLS; j++) {
 				if (asteroidLayer[i][j]->getActive() == true) {
 					//cout << "Rendering: " << i << " " << j << "\n";
 					asteroidLayer[i][j]->Render(renderer);
@@ -311,7 +300,7 @@ void GameManager::clean()
 void GameManager::spawnAsteroids(int rowID)
 {
 	//cout << "Spawning row" << rowID << "\n";
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < ASTEROID_ARRAY_COLS; i++) {
 		randomNumber = (rand() % 100) + 1;
 		if (randomNumber <= spawnThreshold) {
 			//cout << "Activating asteroid" << rowID << " " << i << " " << asteroidLayer[rowID][i]->getYMin() <<"\n";
@@ -322,7 +311,7 @@ void GameManager::spawnAsteroids(int rowID)
 
 void GameManager::clearAsteroids(int rowID)
 {
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < ASTEROID_ARRAY_COLS; i++) {
 		asteroidLayer[rowID][i]->deactivateAsteroid();
 		//cout << "Deactivating asteroid" << rowID << " " << i <<  " " << asteroidLayer[rowID][i]->getYMin() << "\n";
 	}
