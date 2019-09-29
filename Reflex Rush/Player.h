@@ -12,7 +12,6 @@ public:
 	void setYVelocity(int newVelocity);
 	void move(int screenWidth, int screenHeight);
 	void centerShip(int screenWidth, int screenHeight);
-	void print();
 	int checkCollision(class Asteroid *asteroidLayer[][8]);
 
 private:

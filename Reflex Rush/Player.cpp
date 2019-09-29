@@ -8,14 +8,14 @@ Player::Player(SDL_Renderer* ren, int screenWidth, int screenHeight)
 	if (playerTexture == NULL) {
 		cout << "Texture failed to load";
 	}
-	destinationRect.h = 128;
-	destinationRect.w = 128;
-	destinationRect.x = (screenWidth / 2) - 128;
-	destinationRect.y = screenHeight - 128;
-	sourceRect.h = 180;
-	sourceRect.w = 135;
-	sourceRect.x = 60;
-	sourceRect.y = 30;
+	destinationRect.h = PLAYER_SCREEN_SIZE_H;
+	destinationRect.w = PLAYER_SCREEN_SIZE_W;
+	destinationRect.x = (screenWidth / 2) - PLAYER_SCREEN_SIZE_X_SPACING;
+	destinationRect.y = screenHeight - PLAYER_SCREEN_SIZE_Y_SPACING;
+	sourceRect.h = PLAYER_IMAGE_H;
+	sourceRect.w = PLAYER_IMAGE_W;
+	sourceRect.x = PLAYER_IMAGE_X;
+	sourceRect.y = PLAYER_IMAGE_Y;
 	xVelocity = 0;
 	yVelocity = 0;
 	xMax = destinationRect.x + destinationRect.w;
@@ -80,19 +80,14 @@ void Player::move(int screenWidth, int screenHeight)
 
 void Player::centerShip(int screenWidth, int screenHeight)
 {
-	destinationRect.x = (screenWidth / 2) - 128;
-	destinationRect.y = screenHeight - 128;
-}
-
-void Player::print()
-{
-	cout << "Player\n\nXMax : " << xMax << "\nXMin : " << xMin << "\nYMax : " << yMax << "\nYMin : " << yMin << "\n";
+	destinationRect.x = (screenWidth / 2) - PLAYER_SCREEN_SIZE_X_SPACING;
+	destinationRect.y = screenHeight - PLAYER_SCREEN_SIZE_Y_SPACING;
 }
 
 int Player::checkCollision(class Asteroid *asteroidLayer[][8])
 {
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 8; j++) {
+	for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
+		for (int j = 0; j < ASTEROID_ARRAY_COLS; j++) {
 			if (asteroidLayer[i][j]->getActive() == false) {
 				continue;
 			}
