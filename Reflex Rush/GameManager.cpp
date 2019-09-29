@@ -215,7 +215,7 @@ void GameManager::update()
 			levelThreshold = levelThreshold + (levelThreshold * level);
 		}
 
-		if (spawnTimer > 1.7/*Constants::SPAWN_TIMER*/ && activeRows < 5) {
+		if (spawnTimer > SPAWN_TIMER && activeRows < 5) {
 			spawnTimer = 0;
 			spawnAsteroids(spawnRow % 5);
 			spawnRow++;

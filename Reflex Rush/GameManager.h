@@ -5,6 +5,7 @@
 #include "SDL_mixer.h"
 #include "Player.h"
 #include "TextureManager.h"
+#include "Constants.h"
 #include "Asteroid.h"
 #include "Label.h"
 #include "Button.h"
