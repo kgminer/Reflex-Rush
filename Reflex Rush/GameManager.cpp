@@ -79,6 +79,7 @@ void GameManager::handleEvents()
 					score = 0;
 					spawnRow = 0;
 					activeRows = 0;
+					spawnTimer = 0;
 					level = 1;
 					levelThreshold = STARTING_LEVEL_THRESHOLD;
 					player->centerShip(screenWidth, screenHeight);
@@ -109,6 +110,7 @@ void GameManager::handleEvents()
 					score = 0;
 					spawnRow = 0;
 					activeRows = 0;
+					spawnTimer = 0;
 					level = 1;
 					levelThreshold = STARTING_LEVEL_THRESHOLD;
 					Mix_FadeOutMusic(1000);

@@ -9,16 +9,16 @@ Asteroid::Asteroid(SDL_Renderer* ren, int screenWidth, int screenHeight, int pos
 		cout << "Texture failed to load";
 	}
 	sprite = 0;
-	destinationRect.h = 180;
-	destinationRect.w = 180;
-	destinationRect.x = pos * 180;
-	destinationRect.y = -180;
-	sourceRect.h = 190;
-	sourceRect.w = 180;
-	sourceRect.x = 35;
-	sourceRect.y = (sprite * 256) + 25;
+	destinationRect.h = ASTEROID_SCREEN_SIZE_H;
+	destinationRect.w = ASTEROID_SCREEN_SIZE_W;
+	destinationRect.x = pos * ASTEROID_SCREEN_SIZE_X;
+	destinationRect.y = ASTEROID_SCREEN_SIZE_Y;
+	sourceRect.h = ASTEROID_IMAGE_H;
+	sourceRect.w = ASTEROID_IMAGE_W;
+	sourceRect.x = ASTEROID_IMAGE_X;
+	sourceRect.y = (sprite * ASTEROID_IMAGE_Y) + ASTEROID_IMAGE_SPACING;
 	xVelocity = 0;
-	yVelocity = 1;
+	yVelocity = 0;
 	active = false;
 	xMax = destinationRect.x + destinationRect.w;
 	xMin = destinationRect.x;
@@ -39,9 +39,9 @@ void Asteroid::Update()
 	yMax = destinationRect.y + destinationRect.h;
 	yMin = destinationRect.y;
 	int time = SDL_GetTicks();
-	int seconds = time / 500;
-	sprite = seconds % 8;
-	sourceRect.y = (sprite * 256) + 25;
+	int seconds = time / ((int)CONVERT_MS_TO_SEC / 2);
+	sprite = seconds % NUMBER_OF_SPRITE_IMAGES;
+	sourceRect.y = (sprite * ASTEROID_IMAGE_Y) + ASTEROID_IMAGE_SPACING;
 }
 
 void Asteroid::Render(SDL_Renderer * ren)
@@ -62,7 +62,7 @@ void Asteroid::setYVelocity(int newVelocity)
 void Asteroid::deactivateAsteroid()
 {
 	active = false;
-	destinationRect.y = -180;
+	destinationRect.y = ASTEROID_SCREEN_SIZE_Y;
 	yMin = destinationRect.y;
 }
 
