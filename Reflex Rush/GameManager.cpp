@@ -200,7 +200,7 @@ void GameManager::update()
 			}
 		}
 		gameOver = player->Update(screenWidth, screenHeight, asteroidLayer);
-		ui->update(gameOver, renderer, score);
+		ui->update(gameOver, renderer, score, level);
 		for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
 			for (int j = 0; j < ASTEROID_ARRAY_COLS; j++) {
 				if (asteroidLayer[i][j]->getActive() == true) {

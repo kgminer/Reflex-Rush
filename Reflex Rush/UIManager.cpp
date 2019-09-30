@@ -17,6 +17,10 @@ UIManager::UIManager(SDL_Renderer *ren)
 	scoreLabel = new Label(ss.str(), "assets/PSD/SHOWG.TTF", SCORE_LABEL_SIZE, white, SCORE_LABEL_X, SCORE_LABEL_Y, ren);
 	finalScoreLabel = new Label("", "assets/PSD/SHOWG.TTF", FINAL_SCORE_LABEL_SIZE, white, FINAL_SCORE_LABEL_X, FINAL_SCORE_LABEL_Y, ren);
 
+	ss.str("");
+	ss << "Level: " << 1;
+	levelLabel = new Label(ss.str(), "assets/PSD/SHOWG.TTF", LEVEL_LABEL_SIZE, white, LEVEL_LABEL_X, LEVEL_LABEL_Y, ren);
+
 	playLabel = new Label("Play", "assets/PSD/SHOWG.TTF", PLAY_LABEL_SIZE, white, PLAY_LABEL_X, PLAY_LABEL_Y, ren);
 	playButton = new Button("assets/PNG/Buttons/BTNs/Play_BTN.png", "assets/PNG/Buttons/BTNs_Active/Play_BTN.png", PLAY_BUTTON_X, PLAY_BUTTON_Y, PLAY_BUTTON_W, PLAY_BUTTON_H, ren);
 
@@ -46,7 +50,7 @@ int UIManager::handleEvents(bool inGame, bool gameOver, int mouseX, int mouseY)
 	return 0;
 }
 
-void UIManager::update(bool gameOver, SDL_Renderer *ren, int score)
+void UIManager::update(bool gameOver, SDL_Renderer *ren, int score, int level)
 {
 	if (gameOver) {
 		ss.str("");
@@ -60,6 +64,9 @@ void UIManager::update(bool gameOver, SDL_Renderer *ren, int score)
 		ss.str("");
 		ss << "Score: " << score;
 		scoreLabel->setText(ss.str(), ren);
+		ss.str("");
+		ss << "Level: " << level;
+		levelLabel->setText(ss.str(), ren);
 	}
 }
 
@@ -73,6 +80,7 @@ void UIManager::RenderMenu(SDL_Renderer *ren)
 void UIManager::RenderGame(bool gameOver, bool paused, SDL_Renderer *ren)
 {
 	scoreLabel->Render(ren);
+	levelLabel->Render(ren);
 	if (gameOver) {
 
 		gameOverLabel->Render(ren);
