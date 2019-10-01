@@ -61,7 +61,9 @@ void GameManager::handleEvents()
 					spawnRow = 0;
 					activeRows = 0;
 					spawnTimer = 0;
+					timeToSpawnAsteroid = SPAWN_TIMER;
 					level = 1;
+					difficulty = 1;
 					levelThreshold = STARTING_LEVEL_THRESHOLD;
 					spawnThreshold = CHANCE_TO_SPAWN_ASTEROID;
 					player->centerShip(screenWidth, screenHeight);
@@ -90,7 +92,9 @@ void GameManager::handleEvents()
 					spawnRow = 0;
 					activeRows = 0;
 					spawnTimer = 0;
+					timeToSpawnAsteroid = SPAWN_TIMER;
 					level = 1;
+					difficulty = 1;
 					levelThreshold = STARTING_LEVEL_THRESHOLD;
 					spawnThreshold = CHANCE_TO_SPAWN_ASTEROID;
 					Mix_FadeOutMusic(1000);
@@ -177,17 +181,20 @@ void GameManager::update()
 	spawnTimer += deltaTime;
 
 	if (!paused) {
-		score = score + level;
+		score += level;
 
 		if (score > levelThreshold) {
 			level++;
-			cout << "Level " << level << "\n";
-			levelThreshold = levelThreshold + (levelThreshold * level);
-			spawnTimer = SPAWN_TIMER_ADJUSTMENT;
+			if (level % 4 == 0) {
+				difficulty++;
+				spawnThreshold = CHANCE_TO_SPAWN_ASTEROID;
+				timeToSpawnAsteroid -= SPAWN_TIMER_ADJUSTMENT;
+			}
+			levelThreshold *= 2;
 			spawnThreshold += SPAWN_THRESHOLD_ADJUSTMENT;
 		}
 
-		if (spawnTimer > SPAWN_TIMER && activeRows < ASTEROID_ARRAY_ROWS) {
+		if (spawnTimer > timeToSpawnAsteroid && activeRows < ASTEROID_ARRAY_ROWS) {
 			spawnTimer = 0;
 			spawnAsteroids(spawnRow % ASTEROID_ARRAY_ROWS);
 			spawnRow++;
@@ -255,7 +262,7 @@ void GameManager::spawnAsteroids(int rowID)
 	for (int i = 0; i < ASTEROID_ARRAY_COLS; i++) {
 		randomNumber = (rand() % 100) + 1;
 		if (randomNumber <= spawnThreshold) {
-			asteroidLayer[rowID][i]->activateAsteroid(level);
+			asteroidLayer[rowID][i]->activateAsteroid(difficulty);
 		}
 	}
 }

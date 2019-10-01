@@ -32,8 +32,9 @@ public:
 private:
 
 	bool running, inGame, gameOver, paused;
-	int screenWidth, screenHeight, mouseX, mouseY, score, randomNumber, spawnThreshold, spawnRow, activeRows, level, levelThreshold, uiMouseResponse;
-	double currTime, prevTime, deltaTime, spawnTimer;
+	int screenWidth, screenHeight, mouseX, mouseY, score, randomNumber;
+	int spawnThreshold, spawnRow, activeRows, level, levelThreshold, difficulty, uiMouseResponse;
+	double currTime, prevTime, deltaTime, spawnTimer, timeToSpawnAsteroid;
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	SDL_Texture *backgroundTexture;
