@@ -32,7 +32,7 @@ public:
 	bool isRunning();
 private:
 
-	bool running, inGame, gameOver, paused;
+	bool running, inGame, gameOver, paused, waitToSpawn;
 	int screenWidth, screenHeight, mouseX, mouseY, score, randomNumber;
 	int spawnThreshold, spawnRow, activeRows, level, levelThreshold, difficulty, uiMouseResponse;
 	double currTime, prevTime, deltaTime, spawnTimer, timeToSpawnAsteroid;

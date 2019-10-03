@@ -181,7 +181,9 @@ void GameManager::update()
 	spawnTimer += deltaTime;
 
 	if (!paused) {
-		score += level;
+		if (!waitToSpawn) {
+			score += level;
+		}
 
 		if (score > levelThreshold) {
 			level++;
@@ -189,12 +191,18 @@ void GameManager::update()
 				difficulty = 2;
 				spawnThreshold = CHANCE_TO_SPAWN_ASTEROID;
 				timeToSpawnAsteroid = max(timeToSpawnAsteroid - SPAWN_TIMER_ADJUSTMENT, .5);
+				waitToSpawn = true;
 			}
 			levelThreshold *= 2;
 			spawnThreshold += SPAWN_THRESHOLD_ADJUSTMENT;
 		}
 
-		if (spawnTimer > timeToSpawnAsteroid && activeRows < ASTEROID_ARRAY_ROWS) {
+		if (waitToSpawn) {
+			if (spawnTimer > 3) {
+				waitToSpawn = false;
+			}
+		}
+		else if (spawnTimer > timeToSpawnAsteroid && activeRows < ASTEROID_ARRAY_ROWS) {
 			spawnTimer = 0;
 			spawnAsteroids(spawnRow % ASTEROID_ARRAY_ROWS);
 			spawnRow++;
