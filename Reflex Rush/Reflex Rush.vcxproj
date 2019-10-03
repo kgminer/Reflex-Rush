@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="Player.h" />

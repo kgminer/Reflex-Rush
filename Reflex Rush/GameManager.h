@@ -12,6 +12,7 @@
 #include "Button.h"
 #include <math.h>
 #include <iostream>
+#include<algorithm>
 #include <sstream>
 #include <cstdlib>
 #include <ctime>

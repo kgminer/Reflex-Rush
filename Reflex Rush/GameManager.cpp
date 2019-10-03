@@ -186,9 +186,9 @@ void GameManager::update()
 		if (score > levelThreshold) {
 			level++;
 			if (level % 4 == 0) {
-				difficulty++;
+				difficulty = 2;
 				spawnThreshold = CHANCE_TO_SPAWN_ASTEROID;
-				timeToSpawnAsteroid -= SPAWN_TIMER_ADJUSTMENT;
+				timeToSpawnAsteroid = max(timeToSpawnAsteroid - SPAWN_TIMER_ADJUSTMENT, .5);
 			}
 			levelThreshold *= 2;
 			spawnThreshold += SPAWN_THRESHOLD_ADJUSTMENT;
