@@ -1,6 +1,7 @@
-﻿  Button.cpp
-  GameManager.cpp
-  main.cpp
+﻿  GameManager.cpp
+  Label.cpp
+  Player.cpp
+  UIManager.cpp
   Generating Code...
 D:\Git\Reflex-Rush\Reflex Rush\GameManager.cpp(8,12): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Reflex Rush.vcxproj -> D:\Git\Reflex-Rush\Debug\Reflex Rush.exe

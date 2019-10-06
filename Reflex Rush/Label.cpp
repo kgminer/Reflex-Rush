@@ -20,6 +20,7 @@ void Label::setText(string newText, SDL_Renderer * ren)
 {
 	SDL_Surface* surface = TTF_RenderText_Blended(font, newText.c_str(), textColor);
 	if (labelTexture != nullptr) {
+		//Destroy the previous texture before creating a new one. This stops memory leaks from occuring
 		SDL_DestroyTexture(labelTexture);
 	}
 	labelTexture = SDL_CreateTextureFromSurface(ren, surface);
@@ -31,4 +32,5 @@ void Label::setText(string newText, SDL_Renderer * ren)
 Label::~Label()
 {
 	TTF_CloseFont(font);
+	SDL_DestroyTexture(labelTexture);
 }

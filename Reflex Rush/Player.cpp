@@ -28,6 +28,7 @@ Player::Player(SDL_Renderer* ren, int screenWidth, int screenHeight)
 
 Player::~Player()
 {
+	SDL_DestroyTexture(playerTexture);
 }
 
 int Player::Update(int screenWidth, int screenHeight, class Asteroid *asteroidLayer[][8])

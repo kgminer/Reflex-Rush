@@ -257,7 +257,15 @@ void GameManager::render()
 
 void GameManager::clean()
 {
+	ui->~UIManager();
+	player->~Player();
+	for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
+		for (int j = 0; j < ASTEROID_ARRAY_COLS; j++) {
+			asteroidLayer[i][j]->~Asteroid();
+		}
+	}
 	SDL_DestroyWindow(window);
+	SDL_DestroyTexture(backgroundTexture);
 	SDL_DestroyRenderer(renderer);
 	Mix_FreeMusic(menuMusic);
 	Mix_Quit();

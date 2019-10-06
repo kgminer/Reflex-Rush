@@ -99,5 +99,20 @@ void UIManager::RenderGame(bool gameOver, bool paused, SDL_Renderer *ren)
 
 UIManager::~UIManager()
 {
+	//Clean up all the labels
+	scoreLabel->~Label();
+	levelLabel->~Label();
+	gameOverLabel->~Label();
+	finalScoreLabel->~Label();
+	returnToMenuLabel->~Label();
+	replayLabel->~Label();
+	pauseLabel->~Label();
+	unpauseTooltipLabel->~Label();
+	titleLabel->~Label();
+	playLabel->~Label();
 
+	//Clean up all the buttons
+	returnToMenuButton->~Button();
+	replayButton->~Button();
+	playButton->~Button();
 }
