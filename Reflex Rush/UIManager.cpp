@@ -22,13 +22,13 @@ UIManager::UIManager(SDL_Renderer *ren)
 	levelLabel = new Label(ss.str(), "assets/PSD/SHOWG.TTF", LEVEL_LABEL_SIZE, white, LEVEL_LABEL_X, LEVEL_LABEL_Y, ren);
 
 	playLabel = new Label("Play", "assets/PSD/SHOWG.TTF", PLAY_LABEL_SIZE, white, PLAY_LABEL_X, PLAY_LABEL_Y, ren);
-	playButton = new Button("assets/PNG/Buttons/BTNs/Play_BTN.png", "assets/PNG/Buttons/BTNs_Active/Play_BTN.png", PLAY_BUTTON_X, PLAY_BUTTON_Y, PLAY_BUTTON_W, PLAY_BUTTON_H, ren);
+	playButton = new Button("assets/PNG/Buttons/BTNs/Play_BTN.png", PLAY_BUTTON_X, PLAY_BUTTON_Y, PLAY_BUTTON_W, PLAY_BUTTON_H, ren);
 
 	replayLabel = new Label("Replay", "assets/PSD/SHOWG.TTF", REPLAY_LABEL_SIZE, white, REPLAY_LABEL_X, REPLAY_LABEL_Y, ren);
-	replayButton = new Button("assets/PNG/Buttons/BTNs/Replay_BTN.png", "assets/PNG/Buttons/BTNs_Active/Replay_BTN.png", REPLAY_BUTTON_X, REPLAY_BUTTON_Y, REPLAY_BUTTON_W, REPLAY_BUTTON_H, ren);
+	replayButton = new Button("assets/PNG/Buttons/BTNs/Replay_BTN.png", REPLAY_BUTTON_X, REPLAY_BUTTON_Y, REPLAY_BUTTON_W, REPLAY_BUTTON_H, ren);
 
 	returnToMenuLabel = new Label("Return To Menu", "assets/PSD/SHOWG.TTF", RETURN_TO_MENU_LABEL_SIZE, white, RETURN_TO_MENU_LABEL_X, RETURN_TO_MENU_LABEL_Y, ren);
-	returnToMenuButton = new Button("assets/PNG/Buttons/BTNs/Menu_BTN.png", "assets/PNG/Buttons/BTNs_Active/Menu_BTN.png", RETURN_TO_MENU_BUTTON_X, RETURN_TO_MENU_BUTTON_Y, RETURN_TO_MENU_BUTTON_W, RETURN_TO_MENU_BUTTON_H, ren);
+	returnToMenuButton = new Button("assets/PNG/Buttons/BTNs/Menu_BTN.png", RETURN_TO_MENU_BUTTON_X, RETURN_TO_MENU_BUTTON_Y, RETURN_TO_MENU_BUTTON_W, RETURN_TO_MENU_BUTTON_H, ren);
 }
 
 int UIManager::handleEvents(bool inGame, bool gameOver, int mouseX, int mouseY)

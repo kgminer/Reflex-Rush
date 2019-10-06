@@ -24,7 +24,6 @@ Asteroid::Asteroid(SDL_Renderer* ren, int screenWidth, int screenHeight, int pos
 	xMin = destinationRect.x;
 	yMax = destinationRect.y + destinationRect.h;
 	yMin = destinationRect.y;
-	//cout << "Asteriod\n\nXMax : " << xMax << "\nXMin : " << xMin << "\nYMax : " << yMax << "\nYMin : " << yMin << "\n";
 }
 
 
@@ -35,9 +34,11 @@ Asteroid::~Asteroid()
 
 void Asteroid::Update()
 {
+	//move the asteroid and update its y coordinates for collision detection
 	destinationRect.y += yVelocity;
 	yMax = destinationRect.y + destinationRect.h;
 	yMin = destinationRect.y;
+	//update the sprite image being used to display the asteroid
 	int time = SDL_GetTicks();
 	int seconds = time / ((int)CONVERT_MS_TO_SEC / 2);
 	sprite = seconds % NUMBER_OF_SPRITE_IMAGES;
@@ -61,6 +62,7 @@ void Asteroid::setYVelocity(int newVelocity)
 
 void Asteroid::deactivateAsteroid()
 {
+	//move the asteroid back to its starting place and stop it from being updated
 	active = false;
 	destinationRect.y = ASTEROID_SCREEN_SIZE_Y;
 	yMin = destinationRect.y;

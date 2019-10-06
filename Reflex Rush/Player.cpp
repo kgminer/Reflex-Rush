@@ -23,7 +23,6 @@ Player::Player(SDL_Renderer* ren, int screenWidth, int screenHeight)
 	yMax = destinationRect.y + destinationRect.h; 
 	yMin = destinationRect.y;
 	isAlive = true;
-	//cout << "Player\n\nXMax : " << xMax << "\nXMin : " << xMin << "\nYMax : " << yMax << "\nYMin : " << yMin << "\n";
 }
 
 

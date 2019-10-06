@@ -1,24 +1,17 @@
 #include "Button.h"
 
-Button::Button(string inactivefilePath, string activefilePath, int x, int y, int w, int h, SDL_Renderer* ren)
+Button::Button(string filePath, int x, int y, int w, int h, SDL_Renderer* ren)
 {
-	inactiveButtonImage = TextureManager::LoadTexture(inactivefilePath.c_str(), ren);
-	activeButtonImage = TextureManager::LoadTexture(activefilePath.c_str(), ren);
+	buttonImage = TextureManager::LoadTexture(filePath.c_str(), ren);
 	buttonBounds.x = x;
 	buttonBounds.y = y;
 	buttonBounds.w = w;
 	buttonBounds.h = h;
-	activeStatus = false;
 }
 
 void Button::Render(SDL_Renderer * ren)
 {
-	if (!activeStatus) {
-		SDL_RenderCopy(ren, inactiveButtonImage, nullptr, &buttonBounds);
-	}
-	else {
-		SDL_RenderCopy(ren, activeButtonImage, nullptr, &buttonBounds);
-	}
+	SDL_RenderCopy(ren, buttonImage, nullptr, &buttonBounds);
 }
 
 int Button::getBoundsX()
@@ -44,5 +37,5 @@ int Button::getBoundsH()
 
 Button::~Button()
 {
-
+	SDL_DestroyTexture(buttonImage);
 }

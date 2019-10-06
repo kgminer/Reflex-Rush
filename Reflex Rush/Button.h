@@ -7,7 +7,7 @@ using namespace std;
 class Button
 {
 public:
-	Button(string inactivefilePath, string activefilePath, int x, int y, int w, int h, SDL_Renderer* ren);
+	Button(string filePath, int x, int y, int w, int h, SDL_Renderer* ren);
 	void Render(SDL_Renderer* ren);
 	int getBoundsX();
 	int getBoundsY();
@@ -15,8 +15,7 @@ public:
 	int getBoundsH();
 	~Button();
 private:
-	SDL_Texture *inactiveButtonImage, *activeButtonImage;
+	SDL_Texture *buttonImage;
 	SDL_Rect buttonBounds;
-	bool activeStatus;
 };
 
