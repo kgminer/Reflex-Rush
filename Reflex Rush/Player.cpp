@@ -62,7 +62,7 @@ void Player::move(int screenWidth, int screenHeight)
 	xMin = destinationRect.x;
 	yMax = destinationRect.y + destinationRect.h;
 	yMin = destinationRect.y;
-
+	//After the player has moved, check to make sure they haven't moved off the screen
 	if (destinationRect.x < 0) {
 		destinationRect.x = 0;
 	}

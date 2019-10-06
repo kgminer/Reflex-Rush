@@ -21,7 +21,6 @@ class GameManager
 {
 public:
 	GameManager(const char* title, int xpos, int ypos, int width, int height);
-	~GameManager();
 
 	void handleEvents();
 	void update();

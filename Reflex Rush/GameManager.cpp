@@ -4,6 +4,7 @@ using namespace std;
 
 GameManager::GameManager(const char* title, int xpos, int ypos, int width, int height)
 {
+	//Initialize all the SDL components
 	SDL_Init(SDL_INIT_EVERYTHING);
 	srand(time(nullptr));
 
@@ -14,8 +15,10 @@ GameManager::GameManager(const char* title, int xpos, int ypos, int width, int h
 	if (Mix_OpenAudio(AUDIO_FREQUENCY, MIX_DEFAULT_FORMAT, AUDIO_CHANNELS, AUDIO_CHUNKSIZE) < 0) {
 		cout << "Error initializeing Mixer\n";
 	}
+	//Load the menu music and play it on a constant loop
 	menuMusic = Mix_LoadMUS("assets/Space Music Pack/menu.wav");
 	Mix_PlayMusic(menuMusic, -1);
+	//Create the window and renderer
 	screenWidth = width;
 	screenHeight = height;
 	window = SDL_CreateWindow(title , xpos, ypos, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
@@ -25,19 +28,14 @@ GameManager::GameManager(const char* title, int xpos, int ypos, int width, int h
 	running = true;
 	inGame = false;
 	player = new Player(renderer, screenWidth, screenHeight);
-
+	//Create all the asteroids
 	for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
 		for (int j = 0; j < ASTEROID_ARRAY_COLS; j++) {
 			asteroidLayer[i][j] = new Asteroid(renderer, screenWidth, screenHeight, j);
 		}
 	}
-
+	//Initialize the UI of the game
 	ui = new UIManager(renderer);
-}
-
-
-GameManager::~GameManager()
-{
 }
 
 void GameManager::handleEvents()
@@ -51,7 +49,9 @@ void GameManager::handleEvents()
 		case SDL_MOUSEBUTTONDOWN:
 			mouseX = event.motion.x;
 			mouseY = event.motion.y;
+			//send the mouse location to the UI to check if it is within the bounds of any of the buttons
 			uiMouseResponse = ui->handleEvents(inGame, gameOver, mouseX, mouseY);
+			//carry out the actions of the button if it was pressed
 			switch (uiMouseResponse)
 			{
 				case REPLAY_PRESSED:
@@ -175,28 +175,31 @@ void GameManager::update()
 	if (gameOver || !inGame) {
 		return;
 	}
+	//Find out how much time has passed between the previous update call
 	prevTime = currTime;
 	currTime = SDL_GetTicks() / CONVERT_MS_TO_SEC;
 	deltaTime = currTime - prevTime;
 	spawnTimer += deltaTime;
 
 	if (!paused) {
+		//Don't increase the score in the 3 second break that occurs every 4 levels
 		if (!waitToSpawn) {
 			score += level;
 		}
-
+		//Logic for moving from level to level
 		if (score > levelThreshold) {
 			level++;
 			if (level % 4 == 0) {
+				//Every 4 levels, set the spawn percentage back to the starting value, decrease the time between each spawn to a certain point, and start a 3 second waiting period
 				difficulty = 2;
 				spawnThreshold = CHANCE_TO_SPAWN_ASTEROID;
-				timeToSpawnAsteroid = max(timeToSpawnAsteroid - SPAWN_TIMER_ADJUSTMENT, .5);
+				timeToSpawnAsteroid = max(timeToSpawnAsteroid - SPAWN_TIMER_ADJUSTMENT, MIN_SPAWN_TIMER);
 				waitToSpawn = true;
 			}
 			levelThreshold *= 2;
 			spawnThreshold += SPAWN_THRESHOLD_ADJUSTMENT;
 		}
-
+		//Logic for spawning the asteroids
 		if (waitToSpawn) {
 			if (spawnTimer > 3) {
 				waitToSpawn = false;
@@ -207,6 +210,7 @@ void GameManager::update()
 			spawnAsteroids(spawnRow % ASTEROID_ARRAY_ROWS);
 			spawnRow++;
 		}
+		//Update the asteroids, player, and UI
 		for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
 			for (int j = 0; j < ASTEROID_ARRAY_COLS; j++) {
 				if (asteroidLayer[i][j]->getActive() == true) {
@@ -216,6 +220,7 @@ void GameManager::update()
 		}
 		gameOver = player->Update(screenWidth, screenHeight, asteroidLayer);
 		ui->update(gameOver, renderer, score, level);
+		//Check to see if an asteroid row has cleared the bottom of the screen and is ready to be removed
 		for (int i = 0; i < ASTEROID_ARRAY_ROWS; i++) {
 			for (int j = 0; j < ASTEROID_ARRAY_COLS; j++) {
 				if (asteroidLayer[i][j]->getActive() == true) {
@@ -226,7 +231,6 @@ void GameManager::update()
 					break;
 				}
 			}
-			
 		}
 	}
 }

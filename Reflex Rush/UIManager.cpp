@@ -42,7 +42,6 @@ int UIManager::handleEvents(bool inGame, bool gameOver, int mouseX, int mouseY)
 		}
 	}
 	else if (!inGame) {
-		//cout << "x: " << mouseX << " y: " << mouseY << "\n";
 		if ((mouseX > playButton->getBoundsX()) && (mouseX < playButton->getBoundsX() + playButton->getBoundsW()) && (mouseY > playButton->getBoundsY()) && (mouseY < playButton->getBoundsY() + playButton->getBoundsH())) {
 			return PLAY_PRESSED;
 		}
@@ -52,6 +51,7 @@ int UIManager::handleEvents(bool inGame, bool gameOver, int mouseX, int mouseY)
 
 void UIManager::update(bool gameOver, SDL_Renderer *ren, int score, int level)
 {
+	//Update the score and level labels with their new values
 	if (gameOver) {
 		ss.str("");
 		ss << "Final Score: " << score;
